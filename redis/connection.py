@@ -104,6 +104,9 @@ class Encoder(object):
 
     def encode(self, value):
         "Return a bytestring representation of the value"
+        if isinstance(value, unicode):
+            return value.encode(self.encoding, self.encoding_errors)
+
         if isinstance(value, Token):
             return value.encoded_value
         elif isinstance(value, bytes):
@@ -115,6 +118,7 @@ class Encoder(object):
         elif not isinstance(value, basestring):
             # an object we don't know how to deal with. default to unicode()
             value = unicode(value)
+
         if isinstance(value, unicode):
             value = value.encode(self.encoding, self.encoding_errors)
         return value
